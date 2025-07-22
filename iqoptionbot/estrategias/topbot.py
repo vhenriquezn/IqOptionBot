@@ -6,9 +6,8 @@ def calculate_topbot(high, low, close):
 def calcular_senal_topbot(df):
     if len(df) < 1:
         return None
-
     row = df.iloc[-1]
-    value = calculate_topbot(row["High"], row["Low"], row["Close"])
+    value = calculate_topbot(row["high"], row["low"], row["close"])
 
     if value >= 0.8:
         return "call"
