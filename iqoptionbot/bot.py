@@ -38,12 +38,12 @@ class BotModular:
 
     def set_account(self):
         opcion = input(f">> Estás en cuenta {self.api.get_balance_mode()}. ¿Deseas cambiar? (y/n): ").strip().lower()
-
+        opciones_disponibles = []
         if opcion == 'y':
             balances = self.api.get_balances()
             utils.borrar_lineas(1)
             print("📊 BALANCES DISPONIBLES:\n")
-            opciones_disponibles = []
+            
             for i, balance in enumerate(balances.get("msg", []), start=1):
                 tipo = balance.get("type")
                 monto = balance.get("amount")
