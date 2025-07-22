@@ -72,7 +72,7 @@ class BotModular:
         utils.borrar_lineas(len(opciones_disponibles)+4)
         print(f"{"Bienvenido/a":<17}:{self.email}\n")
         print(f"{"Tipo de cuenta":<17}:{self.api.get_balance_mode()} ${self.api.get_balance()} {self.api.get_currency()}")
-        print(f"{"Valor entrada":<17}:{self.entrada_actual}")
+        print(f"{"Valor entrada":<17}:{str(self.config.get('porcentaje_entrada')) + '%' + ' de la cuenta' if self.config.get('usar_porcentaje') == 'S' else self.entrada_actual}")
         if self.use_stop_win:
             print(f"{"Stop Win":<17}:{stop_win}")
         if self.use_stop_loss:
@@ -206,7 +206,7 @@ class BotModular:
     def obtener_candles(self, asset, end_time, offset, period):
         candles = self.api.get_candles(asset, offset, period, end_time)
         df = pd.DataFrame(candles)
-        df['Date'] = pd.to_datetime(df['from'], unit='s', utc=True).dt.tz_convert("America/Santiago")
+        df['date'] = pd.to_datetime(df['from'], unit='s', utc=True).dt.tz_convert("America/Santiago")
         df = df[['date', 'open', 'max', 'min', 'close']]
         df.columns = ['date', 'open', 'high', 'low', 'close']
         df = df.sort_values('date').reset_index(drop=True)
