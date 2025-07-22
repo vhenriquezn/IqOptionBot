@@ -1,0 +1,5 @@
+pandas
+numpy
+telethon
+git+https://github.com/vhenriquezn/iqoptions.git
+zoneinfo; python_version < "3.9"

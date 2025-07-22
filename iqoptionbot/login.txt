@@ -1,0 +1,7 @@
+[LOGIN]
+email = venriquezn2@gmail.com
+password = 0x130x145
+
+[TELEGRAM]
+token = 7881600089:AAHya5rCR3ah6lsZY9YcsZgeWBOVJXBCrCs
+chat_id = 1372054285
