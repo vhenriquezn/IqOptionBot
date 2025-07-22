@@ -3,7 +3,7 @@ from .bot import BotModular
 def main():
     run_bot()
 
-async def run_bot():
+def run_bot():
     bot = BotModular()
     bot.conectar()
     bot.set_account()
