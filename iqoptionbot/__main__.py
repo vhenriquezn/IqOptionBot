@@ -1,7 +1,7 @@
 from .bot import BotModular
 
 def main():
-    run(run_bot())
+    run_bot()
 
 async def run_bot():
     bot = BotModular()
