@@ -115,7 +115,7 @@ class BotModular:
                         msg = f">>🔔 Señal de {'COMPRA' if senal == 'call' else 'VENTA'} detectada, esperando resultado...⏳"
                         self.ejecutar_operacion(senal, msg, hora_op=datetime.fromtimestamp(int(time.time()) // 60 * 60).strftime('%H:%M:%S'))
                     else:
-                         self.operaciones.append({
+                        self.operaciones.append({
                             "hora": datetime.fromtimestamp(int(time.time()) // 60 * 60).strftime('%H:%M:%S'),
                             "paridad": self.asset,
                             "direccion": senal.upper(),
