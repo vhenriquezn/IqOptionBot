@@ -104,7 +104,7 @@ class BotModular:
             while True:
                 self.esperar_proxima_vela(espera_segundos, message)
                 df = self.obtener_candles(self.asset, int(time.time()) // 60 * 60, 60, 60)
-                borrar_lineas(1)
+                utils.borrar_lineas(1)
                 print(">> Analizando Velas, porfavor espera...⏳")
 
                 senal = strategy(df)
