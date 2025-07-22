@@ -1,5 +1,5 @@
 pandas
 numpy
 telethon
-git+https://github.com/vhenriquezn/iqoptions.git
+git+https://github.com/vhenriquezn/iqoptionapi.git
 zoneinfo; python_version < "3.9"
