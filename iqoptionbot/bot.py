@@ -84,7 +84,7 @@ class BotModular:
 
     def trading_loop(self):
         self.actualizar_entrada()
-        strategy, candles_quantity, espera_segundos, opcion = get_estrategia()
+        strategy, candles_quantity, espera_segundos, opcion = utils.get_estrategia()
         if self.config.get("set_asset") == "S":
             self.asset = self.seleccionar_activo_abierto()
 
