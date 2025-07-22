@@ -5,11 +5,9 @@ def calcular_senal_momentum(df):
     v2 = df.iloc[- 2]
     v3 = df.iloc[- 1]
     # 3 velas bajistas
-    if v1['Close'] < v1['Open'] and v2['Close'] < v2['Open'] and v3['Close'] < v3['Open']:
+    if v1['close'] < v1['open'] and v2['close'] < v2['open'] and v3['close'] < v3['open']:
         return "call"
     # 3 velas alcistas
-    elif v1['Close'] > v1['Open'] and v2['Close'] > v2['Open'] and v3['Close'] > v3['Open']:
+    elif v1['close'] > v1['open'] and v2['close'] > v2['open'] and v3['close'] > v3['open']:
         return "put"
     return None
-        
-
