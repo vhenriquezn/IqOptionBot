@@ -1,26 +1,19 @@
-import requests
 import os
-import time
-import pandas as pd
-from datetime import datetime
-from estrategias import ma_cross, topbot, momentum
+import sys
+from .estrategias import ma_cross, topbot, momentum
 
 
 def borrar_lineas(n):
     for _ in range(n):
-        print("\033[F\033[K", end="")
-
-def enviar_telegram(token, chat_id, mensaje):
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
-    data = {"chat_id": chat_id, "text": mensaje}
-    try:
-        requests.post(url, data=data)
-    except Exception as e:
-        print(f"❌ Error al enviar mensaje a Telegram: {e}")
+        sys.stdout.write("\033[F")  # Subir una línea
+        sys.stdout.write("\033[K")  # Borrar la línea
+    sys.stdout.flush()
 
 def cargar_config(ruta):
+    ruta_base = os.path.dirname(os.path.abspath(__file__))
+    ruta_completa=os.path.join(ruta_base,ruta)
     config = {}
-    with open(ruta, "r") as f:
+    with open(ruta_completa, "r") as f:
         for linea in f:
             if "=" in linea:
                 clave, valor = linea.strip().split("=")
@@ -38,12 +31,12 @@ def get_estrategia():
     print("\n📊 Estrategias disponibles:\n")
     for clave, valor in estrategias.items():
         if clave == "4":
-            print(f"   [{clave}] {valor}")
+            print(f"   [{clave}] {valor}\n")
         else:
             print(f"   [{clave}] {valor[0]}")
 
     while True:
-        eleccion = input("\nSeleccione una estrategia (número): ")
+        eleccion = input("Seleccione una estrategia (número): ")
         if eleccion in estrategias:
             if eleccion == "4":
                 print("🚪 Saliendo de la selección de estrategia.")
@@ -65,32 +58,20 @@ def validar_entrada(df, tipo_senal: str, sma_periodo):
     return False
     
 def calcular_sma(df, periodos):
-    return df['Close'].rolling(window = periodos).mean()
+    return df['close'].rolling(window = periodos).mean()
 
-def mostrar_tabla(operaciones, lineas_clr):
-    borrar_lineas(lineas_clr)
+def mostrar_tabla(operaciones):
+    texto = ""
     ganancia_total = sum(op['lucro'] for op in operaciones)
     for i, op in enumerate(operaciones, start=1):
         if i == len(operaciones):
-            print(f"║ {i:^3} ║ {op['hora']:^8} ║ {op['paridad']:^11} ║ {op['direccion']:^9} ║{op['resultado']:^10}║{op['mg']:^4}║ {op['inversion']:^9} ║ {op['lucro']:>7.2f} ║")
-    print("╚═════╩══════════╩═════════════╩═══════════╬═══════════╩════╩═══════════╬═════════╣")
-    print(f"{' ':>43}║{'Ganancias de la sesion':^28}║ {ganancia_total:>7.2f} ║")
-    print(f"{' ':>43}╚════════════════════════════╩═════════╝\n\n")
+            if not op['inversion']:
+                texto += f"║ {i:^3} ║ {op['hora']:^8} ║ {op['paridad']:^11} ║ {op['direccion']:^9} ║{op['resultado']:^39}║\n"
+            else:
+                texto += f"║ {i:^3} ║ {op['hora']:^8} ║ {op['paridad']:^11} ║ {op['direccion']:^9} ║{op['resultado']:^10}║{op['mg']:^4}║ {op['inversion']:^9} ║ {op['lucro']:>7.2f} ║\n"
+    texto += "╚═════╩══════════╩═════════════╩═══════════╬═══════════╩════╩═══════════╬═════════╣\n"
+    texto += f"{' ':>43}║{'Ganancias de la sesion':^28}║ {ganancia_total:>7.2f} ║\n"
+    texto += f"{' ':>43}╚════════════════════════════╩═════════╝\n\n"
+    borrar_lineas(5)
+    print(texto)
     return ganancia_total
-
-
-def guardar_operaciones_excel(operaciones, nombre_archivo="operaciones.xlsx"):
-    df_nuevas = pd.DataFrame(operaciones)
-    if df_nuevas.empty:
-        print("⚠️ No hay operaciones nuevas para guardar.")
-        return
-    try:
-        if os.path.exists(nombre_archivo):
-            df_existente = pd.read_excel(nombre_archivo, engine="openpyxl")
-            df_total = pd.concat([df_existente, df_nuevas], ignore_index=True)
-        else:
-            df_total = df_nuevas
-        df_total.to_excel(nombre_archivo, index=False, engine="openpyxl")
-        print(f"✅ Operaciones añadidas a {nombre_archivo}")
-    except Exception as e:
-        print(f"❌ Error al guardar en Excel: {e}")
