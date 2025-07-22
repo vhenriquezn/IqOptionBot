@@ -1,13 +1,13 @@
 [AJUSTES]
 valor_entrada = 1
-usar_porcentaje  S
+usar_porcentaje = S
 porcentaje_entrada = 1
 set_asset = N
 asset = EURUSD-OTC
 expiration_time = 1
-use_stop_win = False
+use_stop_win = N
 stop_win = 1000
-use_stop_loss = False
+use_stop_loss = N
 stop_loss = 100
 MaFast_period = 1
 MaSlow_period = 34
@@ -17,6 +17,5 @@ periodo_medias = 15
 
 [MARTINGALE]
 usar_martingale = S
-niveles_martingala = 10
+niveles_martingala = 1
 factor_martingale = 2.2
-
