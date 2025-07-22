@@ -238,7 +238,6 @@ class BotModular:
             utils.borrar_lineas(1)    
             print(f"Esperando mejor precio ({signal.upper()}): actual={precio_actual:.5f}, apertura={precio_entrada:.5f}...")
             time.sleep(0.5)
-        borrar_lineas(1)
         return False, f"⚠️ No alcanzó precio favorable en {duracion}s"
 
     def ejecutar_operacion(self, signal, message_check, hora_op=None):
