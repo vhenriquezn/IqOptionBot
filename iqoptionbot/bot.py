@@ -248,18 +248,18 @@ class BotModular:
         resultado_final = "❌ LOSS"
 
         while True:
-            borrar_lineas(1)
+            utils.borrar_lineas(1)
             print(message_check)
             status, id_operacion = self.api.buy(entrada, self.asset, signal, self.expiration_time)
             if not status:
-                borrar_lineas(1)
+                utils.borrar_lineas(1)
                 print("❌ No se pudo ejecutar la operación.")
                 return
 
             profit = self.api.check_win_v3(id_operacion)
 
             if profit == "error":
-                borrar_lineas(1)
+                utils.borrar_lineas(1)
                 print("❌ Tiempo de espera agotado.")
                 return None
                 
@@ -293,7 +293,7 @@ class BotModular:
             "lucro": total_profit
         })
 
-        ganancia_total = mostrar_tabla(self.operaciones)
+        ganancia_total = utils.mostrar_tabla(self.operaciones)
 
         if self.use_stop_win and ganancia_total >= self.stop_win:
             print("🎯 Stop Win alcanzado. Deteniendo operaciones.")
